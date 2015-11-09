@@ -55,17 +55,18 @@ func (p *Puzzle) display() [9][9]int {
 }
 
 func (p *Puzzle) solve() {
-	var delta bool
+	var deltas int
 	for i, row := range p.board {
 		for j := range row {
 			if p.board[i][j].val == 0 {
 				p.board[i][j].check(p)
-				delta = p.board[i][j].evaluate()
+				deltas += p.board[i][j].evaluate()
 			}
 		}
 	}
 	solved := p.solved()
-	if !solved && delta {
+	fmt.Println(solved, deltas)
+	if !solved && deltas > 0 {
 		p.solve()
 	}
 }
@@ -94,21 +95,25 @@ func (s *square) check(p *Puzzle) {
 	}
 }
 
-func (s *square) evaluate() bool {
+func (s *square) evaluate() int {
 	if len(s.not) == 8 {
+		fmt.Println("here?")
 		s.val = addValue(s.not)
-		return true
+		return 1
 	} else if len(s.row) == 8 {
+		fmt.Println("here?")
 		s.val = addValue(s.row)
-		return true
+		return 1
 	} else if len(s.col) == 8 {
+		fmt.Println("here?")
 		s.val = addValue(s.col)
-		return true
+		return 1
 	} else if len(s.box) == 8 {
+		fmt.Println("here?")
 		s.val = addValue(s.box)
-		return true
+		return 1
 	}
-	return false
+	return 0
 }
 
 func addValue(a []int) int {
