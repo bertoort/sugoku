@@ -56,19 +56,49 @@ func (p *Puzzle) display() [9][9]int {
 
 func (p *Puzzle) solve() {
 	var deltas int
+	first := true
 	for i, row := range p.board {
 		for j := range row {
 			if p.board[i][j].val == 0 {
 				p.board[i][j].check(p)
 				deltas += p.board[i][j].evaluate()
+				if first && deltas == 0 {
+					p.board[i][j].randomVal()
+					first = false
+				}
 			}
 		}
 	}
 	solved := p.solved()
-	fmt.Println(solved, deltas)
 	if !solved && deltas > 0 {
 		p.solve()
+	} else if !solved && deltas == 0 {
+		result := p.guess()
+		fmt.Println(result.display())
 	}
+}
+
+func (p *Puzzle) guess() Puzzle {
+	values := p.display()
+	mirror := Puzzle{}
+	mirror.createPuzzle()
+	mirror.fillPuzzle(values)
+	var deltas int
+	for i, row := range mirror.board {
+		for j := range row {
+			if mirror.board[i][j].val == 0 {
+				mirror.board[i][j].check(&mirror)
+				deltas += mirror.board[i][j].evaluate()
+			}
+		}
+	}
+	solved := mirror.solved()
+	if !solved && deltas > 0 {
+		mirror.solve()
+	} else if solved {
+
+	}
+	return mirror
 }
 
 func (p *Puzzle) solved() bool {
@@ -81,6 +111,10 @@ func (p *Puzzle) solved() bool {
 		}
 	}
 	return s
+}
+
+func (s *square) randomVal() {
+	// choose random number from nots
 }
 
 func (s *square) check(p *Puzzle) {
@@ -97,19 +131,15 @@ func (s *square) check(p *Puzzle) {
 
 func (s *square) evaluate() int {
 	if len(s.not) == 8 {
-		fmt.Println("here?")
 		s.val = addValue(s.not)
 		return 1
 	} else if len(s.row) == 8 {
-		fmt.Println("here?")
 		s.val = addValue(s.row)
 		return 1
 	} else if len(s.col) == 8 {
-		fmt.Println("here?")
 		s.val = addValue(s.col)
 		return 1
 	} else if len(s.box) == 8 {
-		fmt.Println("here?")
 		s.val = addValue(s.box)
 		return 1
 	}
