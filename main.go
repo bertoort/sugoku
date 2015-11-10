@@ -20,11 +20,8 @@ func main() {
 	input[7] = [9]int{6, 0, 8, 0, 0, 2, 0, 4, 0}
 	input[8] = [9]int{0, 1, 2, 0, 4, 5, 0, 7, 8}
 	newBoard.fillPuzzle(input)
-	board, status := newBoard.display()
-	fmt.Println(board, status)
-	newBoard.solve()
 	board, status = newBoard.display()
-	fmt.Println(board, status, v)
+	fmt.Println(board, status)
 }
 
 // Puzzle class
@@ -70,16 +67,23 @@ func (p *Puzzle) solve() {
 	if !solved && deltas > 0 {
 		p.solve()
 	} else if !solved {
-		fmt.Println("guessing")
 		result, err := p.guess(0)
 		if err {
 			p.status = "unsolvable"
 		} else {
 			p.board = result.board
-			p.status = "solved"
+			if p.validate() {
+				p.status = "solved"
+			} else {
+				p.status = "broken"
+			}
 		}
 	} else {
-		p.status = "solved"
+		if p.validate() {
+			p.status = "solved"
+		} else {
+			p.status = "broken"
+		}
 	}
 }
 
@@ -138,7 +142,6 @@ func (p *Puzzle) guess(n int) (Puzzle, bool) {
 	}
 	solved := mirror.solved()
 	if !solved && deltas > 0 {
-		fmt.Println("inside guessing solving")
 		mirror.solve()
 	} else if !solved {
 		mirror.status = "unsolvable"
@@ -161,7 +164,6 @@ func (s *square) assignVal(n int) {
 			possibilities = append(possibilities, list[i])
 		}
 	}
-	fmt.Println(possibilities)
 	s.val = possibilities[n]
 }
 
