@@ -7,6 +7,7 @@ import (
 
 func main() {
 	newBoard := Puzzle{}
+	newBoard.status = "unsolved"
 	newBoard.createPuzzle()
 	var input [9][9]int
 	input[0] = [9]int{1, 0, 3, 0, 0, 6, 0, 8, 0}
@@ -19,16 +20,17 @@ func main() {
 	input[7] = [9]int{6, 0, 8, 0, 0, 2, 0, 4, 0}
 	input[8] = [9]int{0, 1, 2, 0, 4, 5, 0, 7, 8}
 	newBoard.fillPuzzle(input)
-	board := newBoard.display()
-	fmt.Println(board)
+	board, status := newBoard.display()
+	fmt.Println(board, status)
 	newBoard.solve()
-	board = newBoard.display()
-	fmt.Println(board)
+	board, status = newBoard.display()
+	fmt.Println(board, status, v)
 }
 
 // Puzzle class
 type Puzzle struct {
-	board [9][9]square
+	status string
+	board  [9][9]square
 }
 
 type square struct {
@@ -42,7 +44,7 @@ type square struct {
 	box []int
 }
 
-func (p *Puzzle) display() [9][9]int {
+func (p *Puzzle) display() ([9][9]int, string) {
 	var board [9][9]int
 	for i, row := range p.board {
 		var newRow [9]int
@@ -51,54 +53,116 @@ func (p *Puzzle) display() [9][9]int {
 		}
 		board[i] = newRow
 	}
-	return board
+	return board, p.status
 }
 
 func (p *Puzzle) solve() {
-	var deltas int
-	first := true
+	deltas := 0
 	for i, row := range p.board {
 		for j := range row {
 			if p.board[i][j].val == 0 {
 				p.board[i][j].check(p)
 				deltas += p.board[i][j].evaluate()
-				if first && deltas == 0 {
-					p.board[i][j].randomVal()
-					first = false
-				}
 			}
 		}
 	}
 	solved := p.solved()
 	if !solved && deltas > 0 {
 		p.solve()
-	} else if !solved && deltas == 0 {
-		result := p.guess()
-		fmt.Println(result.display())
+	} else if !solved {
+		fmt.Println("guessing")
+		result, err := p.guess(0)
+		if err {
+			p.status = "unsolvable"
+		} else {
+			p.board = result.board
+			p.status = "solved"
+		}
+	} else {
+		p.status = "solved"
 	}
 }
 
-func (p *Puzzle) guess() Puzzle {
-	values := p.display()
+func (p Puzzle) validate() bool {
+	for i, row := range p.board {
+		for j := range row {
+			if p.board[i][j].val != 0 {
+				r := p.board[i][j].checkUniqueness(p)
+				if !r {
+					return false
+				}
+			} else {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func (s *square) checkUniqueness(p Puzzle) bool {
+	for i, row := range p.board {
+		for j := range row {
+			if s.x != p.board[i][j].x || s.y != p.board[i][j].y {
+				if s.x == p.board[i][j].x && s.val == p.board[i][j].val {
+					return false
+				} else if s.y == p.board[i][j].y && s.val == p.board[i][j].val {
+					return false
+				} else if s.b == p.board[i][j].b && s.val == p.board[i][j].val {
+					return false
+				}
+			}
+		}
+	}
+	return true
+}
+
+func (p *Puzzle) guess(n int) (Puzzle, bool) {
+	values, _ := p.display()
 	mirror := Puzzle{}
+	mirror.status = "unsolved"
 	mirror.createPuzzle()
 	mirror.fillPuzzle(values)
-	var deltas int
+	deltas := 0
+	first := true
 	for i, row := range mirror.board {
 		for j := range row {
 			if mirror.board[i][j].val == 0 {
 				mirror.board[i][j].check(&mirror)
 				deltas += mirror.board[i][j].evaluate()
+				if first {
+					mirror.board[i][j].assignVal(n)
+					first = false
+				}
 			}
 		}
 	}
 	solved := mirror.solved()
 	if !solved && deltas > 0 {
+		fmt.Println("inside guessing solving")
 		mirror.solve()
-	} else if solved {
-
+	} else if !solved {
+		mirror.status = "unsolvable"
+		return mirror, true
 	}
-	return mirror
+	return mirror, false
+}
+
+func (s *square) assignVal(n int) {
+	list := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	possibilities := []int{}
+	for i := 0; i < 9; i++ {
+		var u bool
+		for j := 0; j < len(s.not); j++ {
+			if s.not[j] == list[i] {
+				u = true
+			}
+		}
+		if !u {
+			possibilities = append(possibilities, list[i])
+		}
+	}
+	fmt.Println(possibilities)
+	s.val = possibilities[n]
 }
 
 func (p *Puzzle) solved() bool {
@@ -111,10 +175,6 @@ func (p *Puzzle) solved() bool {
 		}
 	}
 	return s
-}
-
-func (s *square) randomVal() {
-	// choose random number from nots
 }
 
 func (s *square) check(p *Puzzle) {
