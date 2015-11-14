@@ -44,3 +44,18 @@ func Broken() [9][9]int {
 	input[8] = [9]int{0, 1, 2, 0, 4, 5, 0, 7, 8}
 	return input
 }
+
+// Medium returns a standard input
+func Medium() [9][9]int {
+	var input [9][9]int
+	input[0] = [9]int{9, 3, 8, 0, 0, 0, 1, 0, 5}
+	input[1] = [9]int{0, 0, 4, 8, 6, 0, 0, 0, 0}
+	input[2] = [9]int{6, 7, 0, 0, 0, 0, 0, 8, 0}
+	input[3] = [9]int{0, 0, 5, 0, 8, 2, 0, 0, 0}
+	input[4] = [9]int{0, 6, 0, 0, 0, 0, 0, 7, 0}
+	input[5] = [9]int{0, 0, 0, 6, 9, 0, 5, 0, 0}
+	input[6] = [9]int{0, 1, 0, 0, 0, 0, 0, 4, 2}
+	input[7] = [9]int{0, 0, 0, 0, 4, 6, 8, 0, 0}
+	input[8] = [9]int{8, 0, 3, 0, 0, 0, 6, 9, 7}
+	return input
+}

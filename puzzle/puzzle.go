@@ -1,6 +1,7 @@
 package puzzle
 
 import (
+	"fmt"
 	"github.com/bertoort/sugoku/logic"
 )
 
@@ -48,39 +49,94 @@ func (p *Puzzle) Display() ([9][9]int, string) {
 	return board, p.Status
 }
 
-// Solve is the main method that solved the sudoku puzzle
-func (p *Puzzle) Solve() {
-	deltas := 0
+// FindValues automatically fills a square with the correct possible values
+func (p *Puzzle) FindValues() (bool, bool) {
+	c := 0
 	for i, row := range p.Board {
 		for j := range row {
 			if p.Board[i][j].val == 0 {
 				p.Board[i][j].Check(p)
-				deltas += p.Board[i][j].Evaluate()
+				if len(p.Board[i][j].not) >= 9 {
+					return false, true
+				}
+				c += p.Board[i][j].Evaluate()
 			}
 		}
 	}
 	solved := p.Solved()
-	if !solved && deltas > 0 {
-		p.Solve()
-	} else if !solved {
+	if !solved && c > 0 {
+		p.FindValues()
+	}
+	return solved, false
+}
+
+// Solve is the main method that solved the sudoku puzzle
+func (p *Puzzle) Solve() {
+	solved, _ := p.FindValues()
+	if !solved {
+		fmt.Println("guessing once")
 		result, err := p.Guess(0)
+		fmt.Println("guessing only once!")
 		if err {
 			p.Status = "unsolvable"
 		} else {
 			p.Board = result.Board
-			if p.Validate() {
-				p.Status = "solved"
-			} else {
-				p.Status = "broken"
+		}
+	} else if p.Validate() {
+		p.Status = "solved"
+	} else {
+		p.Status = "broken"
+	}
+}
+
+// Guess finds the first empty value, adds a possible value,
+// and recursively tries to solve the puzzle
+func (p *Puzzle) Guess(t int) (Puzzle, bool) {
+	max, first, err := true, true, false
+	values, _ := p.Display()
+	mirror := New()
+	mirror.FillPuzzle(values)
+	for i, row := range mirror.Board {
+		for j := range row {
+			if mirror.Board[i][j].val == 0 && first {
+				mirror.Board[i][j].Check(&mirror)
+				max = mirror.Board[i][j].AssignVal(t)
+				first = false
 			}
 		}
-	} else {
-		if p.Validate() {
-			p.Status = "solved"
-		} else {
-			p.Status = "broken"
+	}
+	x, _ := mirror.Display()
+	fmt.Println(x)
+	solved, err := mirror.FindValues()
+	x, _ = mirror.Display()
+	fmt.Println(x, solved)
+	if max {
+		return mirror, true
+	} else if err {
+		result := p.Solved()
+		fmt.Println("too many nots", result, t)
+		mirror, err = p.Guess(t + 1)
+		if err {
+			return mirror, true
+		}
+	} else if !solved {
+		fmt.Println("guessing again")
+		mirror, err = mirror.Guess(0)
+		if err {
+			mirror, err = p.Guess(t + 1)
+			if err {
+				return mirror, true
+			}
+		}
+	} else if !mirror.Validate() {
+		result := p.Solved()
+		fmt.Println("full but not out of tries", result, t)
+		mirror, err = p.Guess(t + 1)
+		if err {
+			return mirror, true
 		}
 	}
+	return mirror, false
 }
 
 // Validate checks if the sudoku has a valid solution
@@ -98,38 +154,6 @@ func (p Puzzle) Validate() bool {
 		}
 	}
 	return true
-}
-
-// Guess finds the first empty value, adds a possible value,
-// and recursively tries to solve the puzzle
-func (p *Puzzle) Guess(n int) (Puzzle, bool) {
-	values, _ := p.Display()
-	mirror := Puzzle{}
-	mirror.Status = "unsolved"
-	mirror.CreatePuzzle()
-	mirror.FillPuzzle(values)
-	deltas := 0
-	first := true
-	for i, row := range mirror.Board {
-		for j := range row {
-			if mirror.Board[i][j].val == 0 {
-				mirror.Board[i][j].Check(&mirror)
-				deltas += mirror.Board[i][j].Evaluate()
-				if first {
-					mirror.Board[i][j].AssignVal(n)
-					first = false
-				}
-			}
-		}
-	}
-	solved := mirror.Solved()
-	if !solved && deltas > 0 {
-		mirror.Solve()
-	} else if !solved {
-		mirror.Status = "unsolvable"
-		return mirror, true
-	}
-	return mirror, false
 }
 
 // Solved quickly checks that there aren't any empty values
@@ -215,7 +239,7 @@ func (s *square) CheckUniqueness(p Puzzle) bool {
 }
 
 // AssignVal finds and assigns a possible value to an empty square
-func (s *square) AssignVal(n int) {
+func (s *square) AssignVal(n int) bool {
 	list := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	possibilities := []int{}
 	for i := 0; i < 9; i++ {
@@ -229,7 +253,11 @@ func (s *square) AssignVal(n int) {
 			possibilities = append(possibilities, list[i])
 		}
 	}
-	s.val = possibilities[n]
+	if len(possibilities) > n {
+		s.val = possibilities[n]
+		return false
+	}
+	return true
 }
 
 // Check compares the row, col and box of a square and fills the 'not' values

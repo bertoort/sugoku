@@ -8,7 +8,7 @@ import (
 
 func main() {
 	newBoard := puzzle.New()
-	basicInput := board.Basic()
+	basicInput := board.Medium()
 	newBoard.FillPuzzle(basicInput)
 	newBoard.Solve()
 	board, status := newBoard.Display()
