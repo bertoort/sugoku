@@ -7,10 +7,11 @@ import (
 	"testing"
 )
 
+// Command: go test
+
 func Test_puzzleSetUp(t *testing.T) {
-	newBoard := puzzle.New()
 	input := board.Basic()
-	newBoard.FillPuzzle(input)
+	newBoard := puzzle.New(input)
 	b, _ := newBoard.Display()
 	if b != board.Basic() {
 		fmt.Println(b)
@@ -19,9 +20,8 @@ func Test_puzzleSetUp(t *testing.T) {
 }
 
 func Test_solve(t *testing.T) {
-	newBoard := puzzle.New()
 	input := board.Basic()
-	newBoard.FillPuzzle(input)
+	newBoard := puzzle.New(input)
 	newBoard.Solve()
 	b, _ := newBoard.Display()
 	if b != board.Solved() {
@@ -31,10 +31,9 @@ func Test_solve(t *testing.T) {
 }
 
 func Test_validate(t *testing.T) {
-	newBoard := puzzle.New()
-	// import standard input
 	input := board.Basic()
-	newBoard.FillPuzzle(input)
+	// import standard input
+	newBoard := puzzle.New(input)
 	newBoard.Solve()
 	v := newBoard.Validate()
 	if !v {

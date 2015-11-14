@@ -6,10 +6,11 @@ import (
 	"github.com/bertoort/sugoku/puzzle"
 )
 
+// Command: go run main.go
+
 func main() {
-	newBoard := puzzle.New()
 	basicInput := board.Medium()
-	newBoard.FillPuzzle(basicInput)
+	newBoard := puzzle.New(basicInput)
 	newBoard.Solve()
 	board, status := newBoard.Display()
 	fmt.Println(board, status)

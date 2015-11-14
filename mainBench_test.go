@@ -6,10 +6,19 @@ import (
 	"testing"
 )
 
-func Benchmark_solve(b *testing.B) {
-	newBoard := puzzle.New()
+// Command: go test -bench=.
+
+func Benchmark_solveBasic(b *testing.B) {
 	input := board.Basic()
-	newBoard.FillPuzzle(input)
+	newBoard := puzzle.New(input)
+	for n := 0; n < b.N; n++ {
+		newBoard.Solve()
+	}
+}
+
+func Benchmark_solveMedium(b *testing.B) {
+	input := board.Medium()
+	newBoard := puzzle.New(input)
 	for n := 0; n < b.N; n++ {
 		newBoard.Solve()
 	}
