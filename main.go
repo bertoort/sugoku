@@ -9,7 +9,7 @@ import (
 // Command: go run main.go
 
 func main() {
-	basicInput := board.Medium()
+	basicInput := board.Hard()
 	newBoard := puzzle.New(basicInput)
 	newBoard.Solve()
 	board, status := newBoard.Display()

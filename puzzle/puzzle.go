@@ -32,8 +32,8 @@ func (p *Puzzle) Display() ([9][9]int, string) {
 	return board, p.Status
 }
 
-// FindValues automatically fills a square with the correct possible values
-func (p *Puzzle) FindValues() (bool, bool) {
+// quickFill automatically fills a square with the correct possible values
+func (p *Puzzle) quickFill() (bool, bool) {
 	c, broken := 0, false
 	for i, row := range p.Board {
 		for j := range row {
@@ -48,14 +48,14 @@ func (p *Puzzle) FindValues() (bool, bool) {
 	}
 	solved := p.Solved()
 	if !solved && c > 0 {
-		solved, broken = p.FindValues()
+		solved, broken = p.quickFill()
 	}
 	return solved, broken
 }
 
 // Solve is the main method that solved the sudoku puzzle
 func (p *Puzzle) Solve() {
-	solved, _ := p.FindValues()
+	solved, _ := p.quickFill()
 	if !solved {
 		result, err := p.Guess(0)
 		if err {
@@ -86,7 +86,7 @@ func (p *Puzzle) Guess(t int) (Puzzle, bool) {
 			}
 		}
 	}
-	solved, err := mirror.FindValues()
+	solved, err := mirror.quickFill()
 	if max {
 		return mirror, true
 	} else if err {

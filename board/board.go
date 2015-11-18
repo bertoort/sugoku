@@ -59,3 +59,18 @@ func Medium() [9][9]int {
 	input[8] = [9]int{8, 0, 3, 0, 0, 0, 6, 9, 7}
 	return input
 }
+
+// Hard returns a standard input
+func Hard() [9][9]int {
+	var input [9][9]int
+	input[0] = [9]int{0, 0, 8, 0, 0, 0, 2, 0, 0}
+	input[1] = [9]int{0, 0, 3, 0, 0, 5, 0, 0, 1}
+	input[2] = [9]int{0, 6, 0, 9, 0, 0, 0, 0, 8}
+	input[3] = [9]int{0, 9, 0, 0, 5, 0, 8, 0, 0}
+	input[4] = [9]int{6, 8, 0, 0, 7, 0, 0, 9, 4}
+	input[5] = [9]int{0, 0, 2, 0, 1, 0, 0, 7, 0}
+	input[6] = [9]int{7, 0, 0, 0, 0, 1, 0, 8, 0}
+	input[7] = [9]int{3, 0, 0, 2, 0, 0, 5, 0, 0}
+	input[8] = [9]int{0, 0, 6, 0, 0, 0, 4, 0, 0}
+	return input
+}

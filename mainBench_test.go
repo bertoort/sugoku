@@ -23,3 +23,11 @@ func Benchmark_solveMedium(b *testing.B) {
 		newBoard.Solve()
 	}
 }
+
+func Benchmark_solveHard(b *testing.B) {
+	input := board.Hard()
+	newBoard := puzzle.New(input)
+	for n := 0; n < b.N; n++ {
+		newBoard.Solve()
+	}
+}
