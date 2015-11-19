@@ -15,6 +15,21 @@ func Basic() [9][9]int {
 	return input
 }
 
+// Empty returns a standard input
+func Empty() [9][9]int {
+	var input [9][9]int
+	input[0] = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	input[1] = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	input[2] = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	input[3] = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	input[4] = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	input[5] = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	input[6] = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	input[7] = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	input[8] = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	return input
+}
+
 // Solved returns a solved basic standard input
 func Solved() [9][9]int {
 	var input [9][9]int
