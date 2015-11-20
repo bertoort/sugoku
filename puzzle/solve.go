@@ -47,7 +47,7 @@ func (p *Puzzle) quickFill() (bool, bool) {
 // and recursively tries to solve the puzzle
 func (p *Puzzle) Guess(t int) (Puzzle, bool) {
 	max, first, err := true, true, false
-	values, _ := p.Display()
+	values, _, _ := p.Display()
 	mirror := New(values)
 	for i, row := range mirror.Board {
 		for j := range row {

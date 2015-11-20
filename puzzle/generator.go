@@ -1,7 +1,6 @@
 package puzzle
 
 import (
-	"fmt"
 	"github.com/bertoort/sugoku/board"
 	"github.com/bertoort/sugoku/logic"
 	"math/rand"
@@ -12,7 +11,6 @@ import (
 func Generate(dif string) [9][9]int {
 	board := RandomBoard()
 	n := logic.LevelNumber(dif)
-	fmt.Println(board, n, 81-n)
 	newBoard := RemoveVals(board, n)
 	return newBoard
 }
@@ -44,7 +42,7 @@ func RandomBoard() [9][9]int {
 	sudoku := New(input)
 	sudoku.RandomFill()
 	sudoku.Solve()
-	board, _ := sudoku.Display()
+	board, _, _ := sudoku.Display()
 	return board
 }
 

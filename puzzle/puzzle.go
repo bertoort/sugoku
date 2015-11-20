@@ -1,7 +1,5 @@
 package puzzle
 
-import "fmt"
-
 // Puzzle class
 type Puzzle struct {
 	Status     string
@@ -24,7 +22,7 @@ func New(input [9][9]int) Puzzle {
 }
 
 // Display returns the board values in a 2D matrix and the sudoku status
-func (p *Puzzle) Display() ([9][9]int, string) {
+func (p *Puzzle) Display() ([9][9]int, string, string) {
 	var board [9][9]int
 	for i, row := range p.Board {
 		var newRow [9]int
@@ -33,7 +31,7 @@ func (p *Puzzle) Display() ([9][9]int, string) {
 		}
 		board[i] = newRow
 	}
-	return board, p.Status
+	return board, p.Status, p.Difficulty
 }
 
 // FillPuzzle takes a 2D matrix and fills the puzzle board with it
@@ -102,5 +100,4 @@ func (p *Puzzle) Grade() {
 	} else {
 		p.Difficulty = "medium"
 	}
-	fmt.Println(z)
 }

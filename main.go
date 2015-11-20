@@ -11,10 +11,9 @@ import (
 func main() {
 	v := puzzle.Generate("medium")
 	// basicInput := board.Basic()
-	fmt.Println(v)
 	sudoku := puzzle.New(v)
 	sudoku.Grade()
 	sudoku.Solve()
-	board, status := sudoku.Display()
-	fmt.Println(board, status, sudoku.Difficulty)
+	board, status, dif := sudoku.Display()
+	fmt.Println(board, status, dif)
 }
