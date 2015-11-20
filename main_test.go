@@ -12,7 +12,7 @@ import (
 func Test_puzzleSetUp(t *testing.T) {
 	input := board.Basic()
 	newBoard := puzzle.New(input)
-	b, _ := newBoard.Display()
+	b, _, _ := newBoard.Display()
 	if b != board.Basic() {
 		fmt.Println(b)
 		t.Error("should equal: ", board.Basic())
@@ -23,7 +23,18 @@ func Test_solve(t *testing.T) {
 	input := board.Basic()
 	newBoard := puzzle.New(input)
 	newBoard.Solve()
-	b, _ := newBoard.Display()
+	b, _, _ := newBoard.Display()
+	if b != board.Solved() {
+		fmt.Println(b)
+		t.Error("should equal solved board: ", board.Solved())
+	}
+}
+
+func Test_slowSolve(t *testing.T) {
+	input := board.Basic()
+	newBoard := puzzle.New(input)
+	newBoard.Solve()
+	b, _, _ := newBoard.Display()
 	if b != board.Solved() {
 		fmt.Println(b)
 		t.Error("should equal solved board: ", board.Solved())

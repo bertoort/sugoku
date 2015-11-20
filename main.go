@@ -9,11 +9,11 @@ import (
 // Command: go run main.go
 
 func main() {
-	v := puzzle.Generate("medium")
+	v := puzzle.Generate("hard")
 	// basicInput := board.Basic()
 	sudoku := puzzle.New(v)
 	sudoku.Grade()
-	sudoku.Solve()
+	sudoku.SlowSolve()
 	board, status, dif := sudoku.Display()
 	fmt.Println(board, status, dif)
 }
