@@ -56,7 +56,7 @@ func LevelNumber(dif string) int {
 	easy := [5]int{33, 34, 35, 36, 37}
 	t := time.Now()
 	rand.Seed(int64(t.Nanosecond()))
-	r := rand.Intn(5)
+	r := rand.Intn(4)
 	var n int
 	if dif == "hard" {
 		n = hard[r]
@@ -68,8 +68,15 @@ func LevelNumber(dif string) int {
 	return 81 - n
 }
 
-// // RandomSplit devides a number into 9 fluctuating numbers that add up
-// // to the sum.
-// func RandomSplit(val int) []int {
-//
-// }
+// RandomDif will return a random string: easy, medium, hard
+func RandomDif() string {
+	t := time.Now()
+	rand.Seed(int64(t.Nanosecond()))
+	r := rand.Intn(2)
+	if r == 2 {
+		return "hard"
+	} else if r == 1 {
+		return "medium"
+	}
+	return "easy"
+}

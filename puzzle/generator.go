@@ -7,8 +7,17 @@ import (
 	"time"
 )
 
-// Generate will generate a random board: easy, medium, hard
+// Generate will generate a random board by input: easy, medium, hard
 func Generate(dif string) [9][9]int {
+	board := RandomBoard()
+	n := logic.LevelNumber(dif)
+	newBoard := RemoveVals(board, n)
+	return newBoard
+}
+
+// GenRandom will generate a random board
+func GenRandom() [9][9]int {
+	dif := logic.RandomDif()
 	board := RandomBoard()
 	n := logic.LevelNumber(dif)
 	newBoard := RemoveVals(board, n)

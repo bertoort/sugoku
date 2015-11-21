@@ -31,7 +31,30 @@ sudoku-board {
   margin: 10px auto;
   box-sizing: border-box;
   display: block;
-  border: 3px solid #444;
+}
+
+sudoku-board input {
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  box-sizing: border-box;
+  font-size: 3em;
+  text-align: center;
+  width: 11.11%;
+  height: 11.201%;
+  border: 1px solid #444;
+}
+
+sudoku-board input:focus {
+  outline: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }
 
 contact-links {
@@ -80,4 +103,13 @@ i.github.icon {
 
 .right-float {
   float: right;
+}
+
+.row2, .row5 {
+  border-bottom: 2px solid #444; } .col2, .col5 {
+  border-right: 2px solid #444; } .col0 {
+  border-left: 3px solid #444; } .col8 {
+  border-right: 3px solid #444; } .row0 {
+  border-top: 3px solid #444; } .row8 {
+  border-bottom: 3px solid #444;
 }
