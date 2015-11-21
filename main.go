@@ -21,7 +21,7 @@ func main() {
 	r.Static("/public", "public")
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl.html", gin.H{
-			"hello": "hello",
+			"title": "sudoku",
 		})
 	})
 	r.Run(":" + port)

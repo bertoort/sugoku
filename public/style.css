@@ -1,3 +1,83 @@
 body {
-  background: rebeccapurple;
+  color: #444;
+  padding: 50px;
+}
+
+a:visited, a:link {
+  color: inherit;
+}
+
+main-title {
+  display: block;
+  width: 500px;
+  height: 50px;
+  margin: 0 auto;
+}
+
+main-title h1 {
+  float: left;
+  text-align: center;
+  display: inline;
+}
+
+main-title img {
+  width: auto;
+  height: 50px;
+}
+
+sudoku-board {
+  width: 500px;
+  height: 500px;
+  margin: 10px auto;
+  box-sizing: border-box;
+  display: block;
+  border: 3px solid #444;
+}
+
+contact-links {
+  padding-top: 50px;
+  padding-bottom: 10px;
+  width: 500px;
+  margin: 0 auto;
+  display: block;
+}
+
+control-panel {
+  width: 500px;
+  display: block;
+  margin: 0 auto;
+}
+
+section {
+  margin-bottom: 10px;
+}
+
+section > h3:first-child {
+  margin-top: 5px;
+  display: inline-block;
+}
+
+a.ui.basic.label.value-box:hover {
+  color: inherit;
+  cursor: auto;
+}
+
+i.github.icon {
+  font-size: 15px;
+}
+
+.button-label {
+  width: 130px;
+}
+
+.value-box {
+  width: 100px;
+}
+
+.value-box.right {
+  text-align: right;
+}
+
+.right-float {
+  float: right;
 }

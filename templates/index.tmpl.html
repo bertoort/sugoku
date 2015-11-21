@@ -1,7 +1,44 @@
 <html>
 {{template "header.tmpl.html"}}
 <body>
-  <h1>GO GO GO {{.hello}}</h1>
+  <a href="https://github.com/bertoort/sugoku"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a>
+  <main-title>
+    <h1>{{.title}}</h1>
+    <img class="right-float" src="https://upload.wikimedia.org/wikipedia/commons/2/23/Golang.png" alt="go go go" />
+  </main-title>
+  <sudoku-board></sudoku-board>
+  <control-panel>
+    <section>
+      <h3> Generate: </h3>
+      <generate-buttons class="right-float">
+        <div class="ui buttons">
+          <button class="ui basic button">Easy</button>
+          <button class="ui basic button">Medium</button>
+          <button class="ui basic button">Hard</button>
+        </div>
+        <button style="margin-left: 40px;" class="ui basic button">
+          Random
+        </button>
+      <generate-buttons>
+    </section>
+    <section>
+      <div class="ui labeled button" tabindex="0">
+        <div class="ui basic button button-label">
+          <i class="check square icon"></i> Validate
+        </div>
+        <a class="ui basic label value-box"></a>
+      </div>
+      <div class="ui left labeled button right-float" tabindex="0">
+        <a class="ui basic right label value-box"></a>
+        <div class="ui basic button button-label">
+          <i class="student icon"></i> Difficulty
+        </div>
+      </div>
+    </section>
+    <section>
+      <button class="ui basic fluid large button">Solve</button>
+    </section>
+  </control-panel>
   {{template "footer.tmpl.html"}}
 </body>
 </html>
