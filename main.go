@@ -1,19 +1,28 @@
 package main
 
 import (
-	"fmt"
-	// "github.com/bertoort/sugoku/board"
-	"github.com/bertoort/sugoku/puzzle"
+	// "encoding/json"
+	// "fmt"
+	"github.com/gin-gonic/gin"
+	// "io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	// "strings"
 )
 
-// Command: go run main.go
-
 func main() {
-	v := puzzle.Generate("hard")
-	// basicInput := board.Basic()
-	sudoku := puzzle.New(v)
-	sudoku.Grade()
-	sudoku.SlowSolve()
-	board, status, dif := sudoku.Display()
-	fmt.Println(board, status, dif)
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+	r := gin.Default()
+	r.LoadHTMLGlob("templates/*.html")
+	r.Static("/public", "public")
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.tmpl.html", gin.H{
+			"hello": "hello",
+		})
+	})
+	r.Run(":" + port)
 }
