@@ -9,7 +9,6 @@ import (
 // Command: go run cli.go
 
 func main() {
-	// i := puzzle.Generate("hard")
 	i := board.Basic()
 	sudoku := puzzle.New(i)
 	sudoku.Grade()
