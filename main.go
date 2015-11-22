@@ -16,23 +16,46 @@ func parse(j string) puzzle.Puzzle {
 	return puzzle.New(b)
 }
 
+// CORSMiddleware allows others to access the api
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set(
+			"Access-Control-Allow-Headers",
+			"Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With",
+		)
+		c.Writer.Header().Set(
+			"Access-Control-Allow-Methods",
+			"POST, OPTIONS, GET, PUT",
+		)
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+		c.Next()
+	}
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
 
-	r := gin.Default()
-	r.LoadHTMLGlob("templates/*.html")
-	r.Static("/public", "public")
+	g := gin.Default()
+	g.LoadHTMLGlob("templates/*.html")
+	g.Static("/public", "public")
 
-	r.GET("/", func(c *gin.Context) {
+	g.Use(CORSMiddleware())
+
+	g.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl.html", gin.H{
 			"title": "suGOku",
 		})
 	})
 
-	r.GET("/board", func(c *gin.Context) {
+	g.GET("/board", func(c *gin.Context) {
 		dif := c.Query("difficulty")
 		var b [9][9]int
 		if dif == "random" {
@@ -46,7 +69,7 @@ func main() {
 		}
 		c.JSON(http.StatusOK, gin.H{"board": b})
 	})
-	r.POST("/solve", func(c *gin.Context) {
+	g.POST("/solve", func(c *gin.Context) {
 		j := c.PostForm("board")
 		s := parse(j)
 		s.Grade()
@@ -65,7 +88,7 @@ func main() {
 		})
 	})
 
-	r.POST("/grade", func(c *gin.Context) {
+	g.POST("/grade", func(c *gin.Context) {
 		j := c.PostForm("board")
 		s := parse(j)
 		s.Grade()
@@ -75,7 +98,7 @@ func main() {
 		})
 	})
 
-	r.POST("/validate", func(c *gin.Context) {
+	g.POST("/validate", func(c *gin.Context) {
 		j := c.PostForm("board")
 		s := parse(j)
 		v := s.Validate()
@@ -92,5 +115,5 @@ func main() {
 		})
 	})
 
-	r.Run(":" + port)
+	g.Run(":" + port)
 }
