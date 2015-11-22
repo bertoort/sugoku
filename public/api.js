@@ -56,3 +56,12 @@ var difficulty = {
   "hard": hard,
   "random": random,
 }
+
+function solve() {
+  var board = getBoard()
+  console.log(JSON.stringify(board));
+  $.post('/solve', {board: JSON.stringify(board)})
+    .done(function (data) {
+      console.log(data);
+    })
+}

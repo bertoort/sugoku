@@ -22,3 +22,17 @@ function reset() {
     }
   }
 }
+
+function getBoard() {
+  var board = []
+  for (var i = 0; i < 9; i++) {
+    var row = []
+    for (var j = 0; j < 9; j++) {
+      var n = $('.row'+i+'.col'+j).val()
+      if (n === "") n = "0"
+      row.push(parseInt(n))
+    }
+    board.push(row)
+  }
+  return board
+}

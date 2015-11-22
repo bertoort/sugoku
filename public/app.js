@@ -8,4 +8,7 @@ $(function () {
   $('.clear').click(function () {
     reset()
   })
+  $('.solve').click(function () {
+    solve()
+  })
 })

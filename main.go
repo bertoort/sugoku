@@ -1,8 +1,8 @@
 package main
 
 import (
-	// "encoding/json"
-	// "fmt"
+	"encoding/json"
+	"fmt"
 	// "github.com/bertoort/sugoku/board"
 	"github.com/bertoort/sugoku/puzzle"
 	"github.com/gin-gonic/gin"
@@ -12,6 +12,11 @@ import (
 	"os"
 	// "strings"
 )
+
+//Board is the data structure of the JSON messages
+// type Board struct {
+// 	board [9][9]int
+// }
 
 func main() {
 	port := os.Getenv("PORT")
@@ -38,6 +43,22 @@ func main() {
 		} else if dif == "easy" {
 			b = puzzle.Generate(dif)
 		}
+		c.JSON(http.StatusOK, gin.H{"board": b})
+	})
+	r.POST("/solve", func(c *gin.Context) {
+		j := c.PostForm("board")
+		board := []byte(j)
+		var b interface{}
+		i := json.Unmarshal(board, &b)
+		fmt.Println(i)
+		c.JSON(http.StatusOK, gin.H{"board": b})
+	})
+	r.POST("/validate", func(c *gin.Context) {
+		b := c.PostForm("board")
+		c.JSON(http.StatusOK, gin.H{"board": b})
+	})
+	r.POST("/grade", func(c *gin.Context) {
+		b := c.PostForm("board")
 		c.JSON(http.StatusOK, gin.H{"board": b})
 	})
 	r.Run(":" + port)
