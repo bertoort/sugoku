@@ -2,8 +2,9 @@
 
 ![](https://pbs.twimg.com/media/Bo7fvKJIMAA0moL.png)
 
-`https://sugoku.herokuapp.com/`
+[https://sugoku.herokuapp.com/](https://sugoku.herokuapp.com/)
 
+[Go Challenge 8](http://golang-challenge.com/go-challenge8/) solution for the month of November 2015.
 ## Overview
 
 Sudoku web app: solves, generates, grades, and validates sudoku puzzles.
@@ -16,9 +17,7 @@ The algorithm implements two solving functions:
 
 A very interesting finding was that implementing the QuickFill function before each guess did not improve the speed of the algorithm, in fact, it slowed it down. I was not expecting it. I was so surprised that I decided to keep the original name I had given the function without Quickfill: SlowSolve().
 
-SlowSolve is the faster function and therefore used in the API.
-
-This is a Go Challenge 8 solution for the month of November 2015.
+SlowSolve is the faster function and therefore the one used for the API.
 
 ## Installation
 
@@ -91,3 +90,5 @@ $.post('https://sugoku.herokuapp.com/solve', data)
     } &>    
 
   });```
+
+For more, check out the [api.js](https://github.com/BertoOrt/sugoku/blob/master/public/api.js) file
