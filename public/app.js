@@ -11,4 +11,10 @@ $(function () {
   $('.solve').click(function () {
     solve()
   })
+  $('.validate').click(function () {
+    validate()
+  })
+  $('.grade').click(function () {
+    grade()
+  })
 })

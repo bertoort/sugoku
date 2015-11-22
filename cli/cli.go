@@ -13,7 +13,9 @@ func main() {
 	i := board.Basic()
 	sudoku := puzzle.New(i)
 	sudoku.Grade()
-	sudoku.SlowSolve()
+	err := sudoku.SlowSolve()
 	board, status, dif := sudoku.Display()
-	fmt.Println(board, status, dif)
+	if !err {
+		fmt.Println(board, status, dif)
+	}
 }

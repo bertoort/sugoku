@@ -6,10 +6,13 @@ function setup() {
     }
   }
   $('input').keydown(function (e) {
-    console.log(e.which);
     if ($(this).val().length > 0 && e.which != 8) {
       e.preventDefault()
     } else if (e.which < 41 && e.which > 36) {
+      e.preventDefault()
+    } else if (e.which == 69 || e.which == 190) {
+      e.preventDefault()
+    } else if (e.which == 9) {
       e.preventDefault()
     }
   })
@@ -35,4 +38,20 @@ function getBoard() {
     board.push(row)
   }
   return board
+}
+
+function fill(arr) {
+  arr.forEach(function (row, i) {
+    row.forEach(function (s, j) {
+      if (s !== 0) {
+        $('.row'+i+'.col'+j).val(s)
+      }
+    })
+  })
+}
+
+function setBoard(board, stat, dif) {
+  $('.diff').text(dif)
+  $('.status').text(stat)
+  fill(board)
 }

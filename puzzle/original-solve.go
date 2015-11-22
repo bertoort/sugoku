@@ -5,7 +5,11 @@ package puzzle
 // **************
 
 // Solve is the main method that solved the sudoku puzzle
-func (p *Puzzle) Solve() {
+func (p *Puzzle) Solve() bool {
+	s := p.Solved()
+	if s {
+		return true
+	}
 	solved, _ := p.quickFill()
 	if !solved {
 		result, err := p.Guess(0)
@@ -20,6 +24,7 @@ func (p *Puzzle) Solve() {
 	} else {
 		p.Status = "broken"
 	}
+	return false
 }
 
 // quickFill automatically fills a square with the correct possible values
@@ -81,34 +86,4 @@ func (p *Puzzle) Guess(t int) (Puzzle, bool) {
 		}
 	}
 	return mirror, false
-}
-
-// Validate checks if the sudoku has a valid solution
-func (p Puzzle) Validate() bool {
-	for i, row := range p.Board {
-		for j := range row {
-			if p.Board[i][j].val != 0 {
-				r := p.Board[i][j].CheckUniqueness(p)
-				if !r {
-					return false
-				}
-			} else {
-				return false
-			}
-		}
-	}
-	return true
-}
-
-// Solved quickly checks that there aren't any empty values
-func (p *Puzzle) Solved() bool {
-	s := true
-	for i, row := range p.Board {
-		for j := range row {
-			if p.Board[i][j].val == 0 {
-				s = false
-			}
-		}
-	}
-	return s
 }

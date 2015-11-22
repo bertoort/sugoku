@@ -56,7 +56,7 @@ func LevelNumber(dif string) int {
 	easy := [5]int{33, 34, 35, 36, 37}
 	t := time.Now()
 	rand.Seed(int64(t.Nanosecond()))
-	r := rand.Intn(4)
+	r := rand.Intn(5)
 	var n int
 	if dif == "hard" {
 		n = hard[r]
@@ -72,7 +72,7 @@ func LevelNumber(dif string) int {
 func RandomDif() string {
 	t := time.Now()
 	rand.Seed(int64(t.Nanosecond()))
-	r := rand.Intn(2)
+	r := rand.Intn(3)
 	if r == 2 {
 		return "hard"
 	} else if r == 1 {

@@ -101,3 +101,33 @@ func (p *Puzzle) Grade() {
 		p.Difficulty = "medium"
 	}
 }
+
+// Validate checks if the sudoku has a valid solution
+func (p Puzzle) Validate() bool {
+	for i, row := range p.Board {
+		for j := range row {
+			if p.Board[i][j].val != 0 {
+				r := p.Board[i][j].CheckUniqueness(p)
+				if !r {
+					return false
+				}
+			} else {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+// Solved quickly checks that there aren't any empty values
+func (p *Puzzle) Solved() bool {
+	s := true
+	for i, row := range p.Board {
+		for j := range row {
+			if p.Board[i][j].val == 0 {
+				s = false
+			}
+		}
+	}
+	return s
+}

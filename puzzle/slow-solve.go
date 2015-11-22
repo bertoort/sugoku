@@ -4,8 +4,12 @@ package puzzle
 // puzzle slow solve
 // *****************
 
-// SlowSolve initiates guessing sudoku puzzle
-func (p *Puzzle) SlowSolve() {
+// SlowSolve initiates guessing through a sudoku puzzle
+func (p *Puzzle) SlowSolve() bool {
+	s := p.Solved()
+	if s {
+		return true
+	}
 	result, err := p.SlowGuess(0)
 	if err {
 		p.Status = "unsolvable"
@@ -13,6 +17,7 @@ func (p *Puzzle) SlowSolve() {
 		p.Board = result.Board
 		p.Status = "solved"
 	}
+	return false
 }
 
 // SlowGuess finds the first empty value, adds a possible value,
