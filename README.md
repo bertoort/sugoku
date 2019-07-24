@@ -66,6 +66,37 @@ Validate - returns the status of the puzzle
 
 `https://sugoku.herokuapp.com/validate`
 
+### NOTE:
+
+The request does not support content-type of `application/json`. It must be `application/x-www-form-urlencoded`
+
+To help, here is a quick and dirty encoding functions for a board:
+
+```
+const encodeBoard = (board) => board.reduce((result, row, i) => result + `%5B${encodeURIComponent(row)}%5D${i === board.length -1 ? '' : '%2C'}`, '')
+
+const encodeParams = (params) => 
+  Object.keys(params)
+  .map(key => key + '=' + `%5B${encodeBoard(params[key])}%5D`)
+  .join('&');
+```
+
+Here is an example sending a board:
+
+```
+const data = {board:[[0,0,0,0,0,0,8,0,0],[0,0,4,0,0,8,0,0,9],[0,7,0,0,0,0,0,0,5],[0,1,0,0,7,5,0,0,8],[0,5,6,0,9,1,3,0,0],[7,8,0,0,0,0,0,0,0],[0,2,0,0,0,0,0,0,0],[0,0,0,9,3,0,0,1,0],[0,0,5,7,0,0,4,0,3]]}
+
+fetch('https://sugoku.herokuapp.com/solve', {
+  method: 'POST',
+  body: encodeParams(data),
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+})
+  .then(response => response.json())
+  .then(response => console.log(response.solution))
+  .catch(console.warn)
+```
+
+
 ##### jQuery Example:
 
 ```
