@@ -2,7 +2,7 @@
 
 ![](https://pbs.twimg.com/media/Bo7fvKJIMAA0moL.png)
 
-[https://https://sugoku.onrender.com/](https://https://sugoku.onrender.com/)
+[htpps://sugoku.onrender.com/](htpps://sugoku.onrender.com/)
 
 [Go Challenge 8](http://golang-challenge.com/go-challenge8/) solution for the month of November 2015.
 
@@ -51,21 +51,21 @@ Arguments -
 
 Example:
 
-    https://https://sugoku.onrender.com/board?difficulty=easy
+    htpps://sugoku.onrender.com/board?difficulty=easy
 
 ### Post
 
 Solve - returns the solved puzzle, along with difficulty and status
 
-`https://https://sugoku.onrender.com/solve`
+`htpps://sugoku.onrender.com/solve`
 
 Grade - returns the difficulty of the puzzle
 
-`https://https://sugoku.onrender.com/grade`
+`htpps://sugoku.onrender.com/grade`
 
 Validate - returns the status of the puzzle
 
-`https://https://sugoku.onrender.com/validate`
+`htpps://sugoku.onrender.com/validate`
 
 ### NOTE:
 
@@ -87,7 +87,7 @@ Here is an example sending a board:
 ```
 const data = {board:[[0,0,0,0,0,0,8,0,0],[0,0,4,0,0,8,0,0,9],[0,7,0,0,0,0,0,0,5],[0,1,0,0,7,5,0,0,8],[0,5,6,0,9,1,3,0,0],[7,8,0,0,0,0,0,0,0],[0,2,0,0,0,0,0,0,0],[0,0,0,9,3,0,0,1,0],[0,0,5,7,0,0,4,0,3]]}
 
-fetch('https://https://sugoku.onrender.com/solve', {
+fetch('htpps://sugoku.onrender.com/solve', {
   method: 'POST',
   body: encodeParams(data),
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
@@ -111,7 +111,7 @@ var data = {
           [0,6,4,9,0,3,0,0,1],
           [9,8,0,5,2,1,0,6,0]]"
 }
-$.post('https://https://sugoku.onrender.com/solve', data)
+$.post('htpps://sugoku.onrender.com/solve', data)
   .done(function (response) {
 
     <% response = {
