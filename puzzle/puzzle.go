@@ -106,7 +106,7 @@ func (p *Puzzle) Grade() {
 func (p Puzzle) Validate() bool {
 	for i, row := range p.Board {
 		for j := range row {
-			if p.Board[i][j].val != 0 {
+			if p.Board[i][j].val != 0 && p.Board[i][j].val <= 9 {
 				r := p.Board[i][j].CheckUniqueness(p)
 				if !r {
 					return false
