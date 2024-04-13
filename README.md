@@ -6,6 +6,8 @@
 
 [Go Challenge 8](http://golang-challenge.com/go-challenge8/) solution for the month of November 2015.
 
+*The API is hosted on a [Render](https://render.com/) free tier instance. The server gets spun down with inactivity, expect a delay of 50 secs or more for the initial request. Then it's ⚡
+
 ## Overview
 
 Sudoku web app: solves, generates, grades, and validates sudoku puzzles.
